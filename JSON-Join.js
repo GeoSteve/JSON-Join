@@ -16,10 +16,12 @@ function jsonJoin(input1, input2, joinKey) {
     var joinResult = [];
 
     _.forEach(input1, function(currentUser) {
-        // Join common objects
+        // Setup dynamic variable key by using object literal
         var joinOptions = {}
         joinOptions[joinKey] = currentUser.id
+        // Find macthing object
         var joinUser = _.find(input2, joinOptions);
+        // Join common objects
         joinResult.push(_.assign(currentUser, joinUser));
     });
 
@@ -36,3 +38,4 @@ function jsonJoin(input1, input2, joinKey) {
 }
 
 myJoin = jsonJoin(DraftRound1, DraftRound2, 'id');
+console.log(JSON.stringify(myJoin, null, '\t'));
