@@ -1,26 +1,26 @@
-var DraftRound1 = [
+var userList1 = [
     {id: 1, firstName: 'Steven', interests: ['beer']},
     {id: 5, firstName: 'Tucker', lastName: 'Max', interests: ['debauchery']},
     {id: 3, firstName: 'Jack'}
 ];
 
-var DraftRound2 = [
+var userList2 = [
     {id: 1, firstName: 'Steven', lastName: 'Heinrich'},
     {id: 2, firstName: 'Aaron', lastName: 'Henry'},
     {id: 3, lastName: 'Griffin'},
     {id: 4, firstName: 'Hank', lastName: 'Berman'}
 ];
 
-
+// Dependency: lodash.js
 function jsonJoin(input1, input2, joinKey) {
-    var joinResult = [];
+    var joinResult = [],
+        joinOptions = {},
+        joinUser = {};
 
     _.forEach(input1, function(currentUser) {
-        // Setup dynamic variable key by using object literal
-        var joinOptions = {}
-        joinOptions[joinKey] = currentUser.id
+        joinOptions[joinKey] = currentUser.id // Set key from variable by using object literal
         // Find macthing object
-        var joinUser = _.find(input2, joinOptions);
+        joinUser = _.find(input2, joinOptions);
         // Join common objects
         joinResult.push(_.assign(currentUser, joinUser));
     });
@@ -29,13 +29,13 @@ function jsonJoin(input1, input2, joinKey) {
     joinResult = joinResult.concat(input2);
 
     // Limit to unique objects
-    joinResult = _.uniq(joinResult, 'id');
+    joinResult = _.uniq(joinResult, joinKey);
 
     // Reoder the array of objects
-    joinResult = _.sortBy(joinResult, 'id');
+    joinResult = _.sortBy(joinResult, joinKey);
 
     return joinResult;
 }
 
-myJoin = jsonJoin(DraftRound1, DraftRound2, 'id');
+myJoin = jsonJoin(userList1, userList2, 'id');
 console.log(JSON.stringify(myJoin, null, '\t'));
